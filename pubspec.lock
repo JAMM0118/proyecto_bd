@@ -156,7 +156,7 @@ packages:
     source: hosted
     version: "1.5.1"
   postgres:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: postgres
       sha256: "0eedfad91b1c847e45cf58e64db28305391cb9f59b981ca77a871662e4d4e444"
