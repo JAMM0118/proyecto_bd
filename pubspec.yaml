@@ -32,7 +32,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   
-  postgres: ^3.0.3
+  postgres: ^2.6.3
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
