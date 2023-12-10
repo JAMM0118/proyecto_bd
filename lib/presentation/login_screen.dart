@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final colors = Theme.of(context).colorScheme;
   
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 18, 54, 117),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
 
       body:  Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -71,11 +71,13 @@ class _LoginScreenState extends State<LoginScreen> {
             
                 }),
                 cursorColor: colors.primary,
-                style: const TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                  //hintText: 'User',                  
                   labelText: 'User',
+                  //hintStyle: TextStyle(color: Colors.white)
                   
                 ),
               ),
@@ -83,13 +85,19 @@ class _LoginScreenState extends State<LoginScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(15,15,15,10),
               child: TextField(
+                
+                cursorColor: colors.primary,
                 controller: controllerPassword,
                 onChanged: (value) => setState(() {
                   textPassword = controllerPassword.text;
             
                 }),
                 decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                  
                   labelText: 'Password',
                   
                 ),
