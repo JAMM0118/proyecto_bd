@@ -21,36 +21,91 @@ class _LoginScreenState extends State<LoginScreen> {
   void aux() async{
     if (await dbHelper.openConnection()) {
 
-    await dbHelper.insertData('prueba', {"userName": 'prue121ba', "passwordUser": 'p2121rueba'});
+    await dbHelper.insertData('prueba', {"userName": 'meva13213', "passwordUser": '12312123'});
     print('Datos insertados con éxito');
-    await dbHelper.closeConnection();
+    //await dbHelper.closeConnection();
   } else {
     print('Error al abrir la conexión');
   }
   }
+
+  late TextEditingController controllerUser;
+  late TextEditingController controllerPassword;
+  String textUser = '';
+  String textPassword = '';
+  @override
+  void initState() {
+    super.initState();
+    controllerUser = TextEditingController();
+    controllerPassword = TextEditingController();
+    
+  }
+
+  @override
+  void dispose() {
+    //dbHelper.closeConnection();
+    controllerUser.dispose();
+    controllerPassword.dispose();
+    super.dispose();
+  }
   
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+  
     return Scaffold(
-      body:  Center(
-        child: Column(
+      backgroundColor: const Color.fromARGB(255, 18, 54, 117),
+
+      body:  Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             //if(connectionStatus() == null) Text("conectado") else Text("no conectado")
             
-              
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15,15,15,10),
+              child: TextField(
+                
+                controller: controllerUser,
+                onChanged: (value) => setState(() {
+                  textUser = controllerUser.text;
+            
+                }),
+                cursorColor: colors.primary,
+                style: const TextStyle(color: Colors.white),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  
+                  labelText: 'User',
+                  
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15,15,15,10),
+              child: TextField(
+                controller: controllerPassword,
+                onChanged: (value) => setState(() {
+                  textPassword = controllerPassword.text;
+            
+                }),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Password',
+                  
+                ),
+              ),
+            ),
+            Text(textUser),
+            Text(textPassword),
             FilledButton(
               onPressed: () => (),
-              child:  const Text("Login"),
+
+              child:  const Text("Sign In"),
             ),
-            const SizedBox(width: 10,),
-            FilledButton(
-              onPressed: () =>(),
-              child: const Text("Register"),
-            ),
+           
           ],
         ),
-      ),
+      
     );
   }
 }
