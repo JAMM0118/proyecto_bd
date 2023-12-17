@@ -22,17 +22,18 @@ class DatabaseHelper {
   Future<bool> openConnection() async {
     try {
       await _connection.open();
-      print('Conexión establecida con éxito');
+      print("Conexión exitosa");
       return true;
+      
     } catch (e) {
-      print('Error al abrir la conexión: $e');
       return false;
+      
     }
   }
 
   Future<void> closeConnection() async {
     await _connection.close();
-    print('Conexión cerrada');
+    print("Conexión cerrada");
   }
 
   Future<void> insertData(String table, Map<String, dynamic> values) async {
@@ -43,15 +44,34 @@ class DatabaseHelper {
       );
       //print('Datos insertados con éxito en la tabla $table');
     } catch (e) {
-      print('Error al insertar datos en la tabla $table: $e');
+      throw Exception('Error al insertar datos en la tabla $table');
     }
   }
 
-  // Agrega funciones para update y delete según sea necesario
+  Future<List<Map<String,dynamic>>> selectData(String table) async {
+
+  final results = await _connection.query('SELECT * FROM $table');
+  List<Map<String, dynamic>> resultMap = await convertResultToMap(results);
+  //print(resultMap);
+  //print(results);
+    return resultMap;
 }
 
-void main() async {
-  
+Future<List<Map<String, dynamic>>> convertResultToMap(PostgreSQLResult result) async {
+  // Obtener las filas del resultado
+  List<Map<String, dynamic>> rows = result.map((row) => row.toColumnMap()).toList();
 
-  
+  // Si solo esperas una fila, puedes devolver el primer elemento de la lista
+  if (rows.isNotEmpty) {
+    return rows;
+  } else {
+    // Si no hay filas, puedes devolver un mapa vacío o lanzar una excepción según tus necesidades
+    return [];
+  }
 }
+
+
+}
+
+
+
