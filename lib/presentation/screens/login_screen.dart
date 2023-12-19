@@ -25,15 +25,12 @@ class LoginScreenState extends State<LoginScreen> {
           conexionIsOpen2 = true;
         });
       }
-   else {
-    setState(() {
-          conexionIsOpen2 = false;
-    });
-  }
+   
   }
   Future auxLogin() async{
     if (conexionIsOpen2) {
         final resultMap = await dbHelper.selectData('users');
+        print(resultMap);
         for(Map<String,dynamic> row in resultMap){
           String user = row['username'];
           String password = row['password'];
@@ -57,10 +54,12 @@ class LoginScreenState extends State<LoginScreen> {
   bool conexionIsOpen2 = false;
   @override
   void initState() {
-    conexionIsOpen();
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await conexionIsOpen();
+    });
     controllerUser = TextEditingController();
     controllerPassword = TextEditingController();
-    super.initState();
     
   }
 
@@ -173,7 +172,8 @@ class LoginScreenState extends State<LoginScreen> {
                   
                   FilledButton(
                     
-                    onPressed: () async {
+                    onPressed: ()async{
+
                       await auxLogin();
                       if(isUser){
                         context.go('/inicioScreen');

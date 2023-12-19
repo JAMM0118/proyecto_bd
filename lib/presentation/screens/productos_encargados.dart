@@ -24,11 +24,7 @@ class _ProductosEncargadosState extends State<ProductosEncargados> {
         conexionIsOpen2 = true;
         print('conexion abierta');
       });
-    } else {
-      setState(() {
-        conexionIsOpen2 = false;
-      });
-    }
+    } 
   }
 
   List<Map<String, dynamic>> result = [];

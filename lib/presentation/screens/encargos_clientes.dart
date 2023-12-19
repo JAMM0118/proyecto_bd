@@ -58,18 +58,21 @@ class _EncargosClientesState extends State<EncargosClientes> {
 
   @override
   Widget build(BuildContext context) {
-    final clienteUnicos = result
-                      .map((e) => e['documentocliente'].toString())
-                      .toSet()
-                      .toList();
-    final nombreClientes = result
-                      .map((e) => e['nombrecompletocliente'].toString())
-                      .toSet()
-                      .toList();
-    final pedidosporcliente = clienteUnicos.map((e) =>
-     result.where((i) => i['documentocliente'].toString() == e).toString()).toList();
-                  
-              
+    final cedulasUnicas =
+        result.map((e) => e['documentocliente']).toSet().toList();
+    final clienteUnicos = cedulasUnicas
+        .map((e) => {
+              'cliente': result.firstWhere(
+                  (r) => r['documentocliente'] == e)['nombrecompletocliente'],
+              'cedula': e
+            })
+        .toList();
+
+    final pedidosporcliente = clienteUnicos
+        .map((c) =>
+            result.where((e) => e['documentocliente'] == c['cedula']).toList())
+        .toList();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Encargos Clientes'),
@@ -80,17 +83,8 @@ class _EncargosClientesState extends State<EncargosClientes> {
                 strokeWidth: 2,
               )
             : ListView.builder(
-                  
-                itemCount: result.length,
+                itemCount: clienteUnicos.length,
                 itemBuilder: (context, index) {
-                  print(clienteUnicos);
-                  // final pedidoUnicos = result
-                  //     .map((e) => e['descripcionproducto'])
-                  //     .toSet()
-                  //     .toList();
-
-                    print(pedidosporcliente);
-                  //print(pedidoUnicos);
                   return ExpansionTile(
                     //controlAffinity: ListTileControlAffinity.leading ,
                     leading: const Icon(Icons.person_pin_rounded),
@@ -100,7 +94,7 @@ class _EncargosClientesState extends State<EncargosClientes> {
                         style: const TextStyle(fontWeight: FontWeight.bold),
                         children: <TextSpan>[
                           TextSpan(
-                              text: result[index]['nombrecompletocliente'],
+                              text: clienteUnicos[index]['cliente'],
                               style: const TextStyle(
                                   fontWeight: FontWeight.normal))
                         ])),
@@ -110,41 +104,42 @@ class _EncargosClientesState extends State<EncargosClientes> {
                         style: const TextStyle(fontWeight: FontWeight.bold),
                         children: <TextSpan>[
                           TextSpan(
-                              text: result[index]['documentocliente'].toString(),
+                              text: clienteUnicos[index]['cedula'].toString(),
                               style: const TextStyle(
                                   fontWeight: FontWeight.normal))
                         ])),
 
                     children: [
-
-                      // for(int i = 0; i < pedidosporcliente.length; i++)
-                      // ListTile(
-                      //   title: Text(pedidosporcliente[i]),
-                      // ),
-                      ListTile(
-                        title: Text.rich(TextSpan(
-                            text: "Pedido: ",
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: result[index]['descripcionproducto'],
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.normal))
-                            ])),
-                        subtitle: Text.rich(TextSpan(
-                            text: "Tipo: ",
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: result[index]['tipoproducto'] ==
-                                          "prendavestir"
-                                      ? "prenda de vestir"
-                                      : result[index]['tipoproducto'],
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.normal))
-                           
-                    ])),
-                      )
+                      for (int i = 0; i < pedidosporcliente[index].length; i++)
+                        
+                        ListTile(
+                          title: Text.rich(TextSpan(
+                              text: "Pedido: ",
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: pedidosporcliente[index][i]
+                                        ['descripcionproducto'],
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.normal))
+                              ])),
+                          subtitle: Text.rich(TextSpan(
+                              text: "Tipo: ",
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: pedidosporcliente[index][i]
+                                                ['tipoproducto'] ==
+                                            "prendavestir"
+                                        ? "prenda de vestir"
+                                        : pedidosporcliente[index][i]
+                                            ['tipoproducto'],
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.normal))
+                              ])),
+                        )
                     ],
                   );
                 },

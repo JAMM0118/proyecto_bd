@@ -49,16 +49,24 @@ const appMenuItems = <MenuItem>[
     ),
 
     MenuItem(
-    title: "Productos vendidos", 
+    title: "Compras de los colegios", 
     subTitle: "productos vendidos por colegio", 
-    link: "/progress", 
+    link: "/ventasColegios", 
     icon: Icons.shopping_cart
+    ),
+
+    MenuItem(
+    title: "Productos Vendidos", 
+    subTitle: "Productos vendidos por cliente", 
+    link: "/ventasClientes", 
+    icon: Icons.sell_rounded
+    
     ),
     
     MenuItem(
     title: "Ventas totales", 
     subTitle: "Ventas totales por todos los clientes", 
-    link: "/snackbar", 
+    link: "/ventasTotales", 
     icon: Icons.monetization_on
     
     ),
@@ -110,6 +118,8 @@ const appMenuItems = <MenuItem>[
     icon: Icons.delete_forever
     
     ),
+
+    
    
   
    
