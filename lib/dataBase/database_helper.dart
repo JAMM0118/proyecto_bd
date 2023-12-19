@@ -42,7 +42,6 @@ class DatabaseHelper {
         'INSERT INTO $table("user", "password") VALUES (@userName, @passwordUser)',
         substitutionValues: values,
       );
-      //print('Datos insertados con éxito en la tabla $table');
     } catch (e) {
       throw Exception('Error al insertar datos en la tabla $table');
     }
@@ -52,10 +51,41 @@ class DatabaseHelper {
 
   final results = await _connection.query('SELECT * FROM $table');
   List<Map<String, dynamic>> resultMap = await convertResultToMap(results);
-  //print(resultMap);
-  //print(results);
     return resultMap;
 }
+  Future<List<Map<String,dynamic>>> selectDataInventario(String table) async {
+
+  final results = await _connection.query("""SELECT fechaencargo, fechaentrega , 
+  descripcionproducto, tipoproducto FROM pedido inner join $table on
+   inventarioproducto.encargado = pedido.numeropedido and pedido.estado ilike 'onHold' 
+   ORDER BY fechaencargo""");
+  List<Map<String, dynamic>> resultMap = await convertResultToMap(results);
+    return resultMap;
+}
+
+Future<List<Map<String,dynamic>>> selectDataClientes() async {
+
+  final results = await _connection.query("""select nombrecompletocliente, documentocliente, descripcionproducto,tipoproducto 
+  from cliente inner join pedido on  cliente.documentocliente = pedido.cliente inner 
+  join inventarioproducto on  inventarioproducto.encargado = pedido.numeropedido and pedido.estado ilike 'onHold'""");
+  List<Map<String, dynamic>> resultMap = await convertResultToMap(results);
+  print(resultMap);
+    return resultMap;
+}
+
+
+Future<List<Map<String,dynamic>>> selectDataStock() async {
+
+  final results = await _connection.query("""
+select descripcionproducto,tipoproducto, stockproducto - COALESCE(SUM((pedido.cantidad)),0) 
+AS cantidad 
+from inventarioproducto
+left join pedido on pedido.numeropedido = inventarioproducto.encargado
+group by descripcionproducto,tipoproducto,stockproducto""");
+  List<Map<String, dynamic>> resultMap = await convertResultToMap(results);
+    return resultMap;
+}
+
 
 Future<List<Map<String, dynamic>>> convertResultToMap(PostgreSQLResult result) async {
   // Obtener las filas del resultado

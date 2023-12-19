@@ -31,6 +31,13 @@ const appMenuItems = <MenuItem>[
     link: '/clientes', 
     icon: Icons.person
     ),
+  MenuItem(
+    title: "Agregar Usuario", 
+    subTitle: "Agregar usuario a la base de datos", 
+    link: "/animated", 
+    icon: Icons.person_add_alt_1_rounded
+    
+    ),
   
   MenuItem(
     title: "Stock", 
@@ -43,7 +50,7 @@ const appMenuItems = <MenuItem>[
   MenuItem(
     title: "Colegios", 
     subTitle: "Colegios en contrato", 
-    link: "/nice", 
+    link: "/colegios", 
     icon: Icons.school
     ),
 
@@ -61,15 +68,41 @@ const appMenuItems = <MenuItem>[
     icon: Icons.monetization_on
     
     ),
-  
-   MenuItem(
-    title: "Agregar Usuario", 
-    subTitle: "Agregar usuario a la base de datos", 
-    link: "/animated", 
-    icon: Icons.person_add_alt_1_rounded
+   
+    
+    MenuItem(
+    title: "Consulta de datos", 
+    subTitle: "Consultar datos de la base de datos", 
+    link: "/noa", 
+    icon: Icons.search
+    
+    ),
+   
+    MenuItem(
+    title: "Modificar datos", 
+    subTitle: "Modificar datos de la base de datos", 
+    link: "/noa", 
+    icon: Icons.rebase_edit
+    
+    ),
+   
+    MenuItem(
+    title: "Eliminar datos", 
+    subTitle: "Eliminar datos de la base de datos", 
+    link: "/snackbaar", 
+    icon: Icons.delete_forever
+    
+    ),
+   
+    MenuItem(
+    title: "Ver registros", 
+    subTitle: "Ver registros de la base de datos", 
+    link: "/snackbdasar", 
+    icon: Icons.view_list
     
     ),
   
+   
   
   
 ];

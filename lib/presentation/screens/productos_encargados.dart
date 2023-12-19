@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:proyecto_bd/dataBase/database_helper.dart';
 
 class ProductosEncargados extends StatefulWidget {
@@ -34,7 +35,8 @@ class _ProductosEncargadosState extends State<ProductosEncargados> {
 
   Future auxProductos() async {
     if (conexionIsOpen2) {
-      final resultMap = await dbHelper.selectData('inventarioproducto');
+      final resultMap =
+          await dbHelper.selectDataInventario('inventarioproducto');
       setState(() {
         result = resultMap;
       });
@@ -43,8 +45,11 @@ class _ProductosEncargadosState extends State<ProductosEncargados> {
 
   @override
   void initState() {
-    conexionIsOpen();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await conexionIsOpen();
+      await auxProductos();
+    });
   }
 
   @override
@@ -55,22 +60,38 @@ class _ProductosEncargadosState extends State<ProductosEncargados> {
 
   @override
   Widget build(BuildContext context) {
-    final prueba = "asda";
+    final colors = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Productos Encargados'),
       ),
       body: Center(
-        child: Column(
-          children: [
-            FilledButton(onPressed: 
-            () async {
-              await auxProductos();
-            }
-            , child: Text('prueba')),
-            Text(result.toString()),
-          ],
-        ),
+        child: (!conexionIsOpen2)
+            ? const CircularProgressIndicator(
+                strokeWidth: 2,
+              )
+            : ListView.builder(
+                itemCount: result.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    iconColor: colors.primary,
+                    leading: const Icon(Icons.receipt_long_outlined),
+                    title:
+                        Text(result[index]['descripcionproducto'].toUpperCase(),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            )),
+                    subtitle: Text(
+                        (result[index]['tipoproducto'] == 'prendavestir')
+                            ? 'prenda de vestir'
+                            : result[index]['tipoproducto']),
+                    trailing: Text(
+                      "Encargo: ${DateFormat('yyyy-MM-dd').format(result[index]['fechaencargo']).toString()} \n Entrega: ${DateFormat('yyyy-MM-dd').format(result[index]['fechaentrega']).toString()}",
+                    ),
+                  );
+                },
+              ),
       ),
     );
   }
