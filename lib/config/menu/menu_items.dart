@@ -31,13 +31,7 @@ const appMenuItems = <MenuItem>[
     link: '/clientes', 
     icon: Icons.person
     ),
-  MenuItem(
-    title: "Agregar Usuario", 
-    subTitle: "Agregar usuario a la base de datos", 
-    link: "/animated", 
-    icon: Icons.person_add_alt_1_rounded
-    
-    ),
+  
   
   MenuItem(
     title: "Stock", 
@@ -69,12 +63,35 @@ const appMenuItems = <MenuItem>[
     
     ),
    
+     MenuItem(
+    title: "Ver registros", 
+    subTitle: "Ver registros de la base de datos", 
+    link: "/snackbdasar", 
+    icon: Icons.view_list
     
+    ),
+  
+    
+    MenuItem(
+    title: "Agregar Usuario", 
+    subTitle: "Agregar usuario a la base de datos", 
+    link: "/animated", 
+    icon: Icons.person_add_alt_1_rounded
+    
+    ),
     MenuItem(
     title: "Consulta de datos", 
     subTitle: "Consultar datos de la base de datos", 
     link: "/noa", 
     icon: Icons.search
+    
+    ),
+
+    MenuItem(
+    title: "Insertar datos", 
+    subTitle: "Insertar datos de la base de datos", 
+    link: "/noa", 
+    icon: Icons.playlist_add
     
     ),
    
@@ -94,13 +111,6 @@ const appMenuItems = <MenuItem>[
     
     ),
    
-    MenuItem(
-    title: "Ver registros", 
-    subTitle: "Ver registros de la base de datos", 
-    link: "/snackbdasar", 
-    icon: Icons.view_list
-    
-    ),
   
    
   

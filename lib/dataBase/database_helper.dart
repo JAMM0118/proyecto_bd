@@ -53,11 +53,12 @@ class DatabaseHelper {
   List<Map<String, dynamic>> resultMap = await convertResultToMap(results);
     return resultMap;
 }
+
   Future<List<Map<String,dynamic>>> selectDataInventario(String table) async {
 
   final results = await _connection.query("""SELECT fechaencargo, fechaentrega , 
   descripcionproducto, tipoproducto FROM pedido inner join $table on
-   inventarioproducto.encargado = pedido.numeropedido and pedido.estado ilike 'onHold' 
+   inventarioproducto.encargado = pedido.numeropedido and pedido.estado ilike 'En espera' 
    ORDER BY fechaencargo""");
   List<Map<String, dynamic>> resultMap = await convertResultToMap(results);
     return resultMap;
@@ -65,14 +66,14 @@ class DatabaseHelper {
 
 Future<List<Map<String,dynamic>>> selectDataClientes() async {
 
-  final results = await _connection.query("""select nombrecompletocliente, documentocliente, descripcionproducto,tipoproducto 
+  final results = await _connection.query("""select nombrecompletocliente, documentocliente, descripcionproducto,
+  tipoproducto 
   from cliente inner join pedido on  cliente.documentocliente = pedido.cliente inner 
-  join inventarioproducto on  inventarioproducto.encargado = pedido.numeropedido and pedido.estado ilike 'onHold'""");
+  join inventarioproducto on  inventarioproducto.encargado = pedido.numeropedido and pedido.estado ilike 'En espera'""");
   List<Map<String, dynamic>> resultMap = await convertResultToMap(results);
   print(resultMap);
     return resultMap;
 }
-
 
 Future<List<Map<String,dynamic>>> selectDataStock() async {
 

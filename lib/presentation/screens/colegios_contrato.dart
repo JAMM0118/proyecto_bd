@@ -57,6 +57,13 @@ class _ColegiosContratoState extends State<ColegiosContrato> {
   }
   @override
   Widget build(BuildContext context) {
+    
+    final nombreIntitucion = result
+                      .map((e) => e['institucion'])
+                      .toSet()
+                      .toList();
+    //print(nombreIntitucion);
+    //print(result);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Colegios con contrato'),
@@ -66,10 +73,10 @@ class _ColegiosContratoState extends State<ColegiosContrato> {
                 strokeWidth: 2,
               )
             :ListView.builder(
-        itemCount: result.length,
+        itemCount: nombreIntitucion.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(result[index]['institucion']),
+            title: Text(nombreIntitucion[index]),
             leading: const Icon(Icons.school_rounded),
           );
         },
