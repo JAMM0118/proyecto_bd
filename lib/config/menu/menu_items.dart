@@ -101,14 +101,14 @@ const appMenuItems = <MenuItem>[
     MenuItem(
     title: "Agregar Usuario", 
     subTitle: "Agregar usuario a la base de datos", 
-    link: "/animated", 
+    link: "/usuario", 
     icon: Icons.person_add_alt_1_rounded
     
     ),
     MenuItem(
     title: "Consulta de datos", 
     subTitle: "Consultar datos de la base de datos", 
-    link: "/noa", 
+    link: "/consultar", 
     icon: Icons.search
     
     ),
@@ -124,7 +124,7 @@ const appMenuItems = <MenuItem>[
     MenuItem(
     title: "Modificar datos", 
     subTitle: "Modificar datos de la base de datos", 
-    link: "/noa", 
+    link: "/modificar", 
     icon: Icons.rebase_edit
     
     ),
@@ -132,7 +132,7 @@ const appMenuItems = <MenuItem>[
     MenuItem(
     title: "Eliminar datos", 
     subTitle: "Eliminar datos de la base de datos", 
-    link: "/snackbaar", 
+    link: "/eliminar", 
     icon: Icons.delete_forever
     
     ),

@@ -72,6 +72,67 @@ class DatabaseHelper {
     }
   }
 
+Future<void> insertDataProducto( String codigo, String precio, String geneno,String descripcion, String talla,
+String colores, String stock, String tipo, String caracteristica, String materiaPrima) async {
+    final results = await selectData('caracteristicaadicional');
+    final length = results.length + 1;
+    final id = length.toString();
+
+    final resulsUniforme = await selectData('uniforme');
+    final lengthUniforme = resulsUniforme.length + 1;
+    final idUniforme = lengthUniforme.toString();
+    try {
+      await _connection.query(
+          'INSERT INTO caracteristicaadicional("idcaracteristica","caracteristica") VALUES (@idcaracteristica,@caracteristica)',
+          substitutionValues: {
+            'idcaracteristica': id,
+            'caracteristica': caracteristica,
+          });
+      await _connection.query(
+        """INSERT INTO inventarioproducto("codigoproducto", "precioventa","genero",
+        "descripcionproducto","talla","especificacioncolor","stockproducto","tipoproducto",
+        "caracteristica","materiaprima") VALUES (@codigoproducto,@precioventa,@genero,@descripcionproducto,@talla,
+        @especificacioncolor,
+        @stockproducto,@tipoproducto,
+        @caracteristica, @materiaprima)""",
+        substitutionValues: {
+          'codigoproducto': codigo,
+          'precioventa': precio,
+          'genero': geneno,
+          'descripcionproducto': descripcion,
+          'talla': talla,
+          'especificacioncolor': colores,
+          'stockproducto': stock,
+          'tipoproducto': tipo == 'uniforme' ? 'uniforme' : 'prendavestir',
+          'caracteristica': id,
+          'materiaprima': materiaPrima,
+        },
+      );
+      if(tipo == 'uniforme'){
+        await _connection.query(
+        """INSERT INTO uniforme("codigouniforme","estilouniforme", "institucion") VALUES (
+          @codigouniforme,@estilouniforme,@institucion)""",
+        substitutionValues: {
+          'codigouniforme': codigo,
+          'estilouniforme': caracteristica,
+          'institucion': 'institucion $idUniforme',
+        },
+      );
+      }else{
+        await _connection.query(
+        """INSERT INTO prendadevestir("codigoprenda", "estiloprenda") VALUES (@codigoprenda,@estiloprenda)""",
+        substitutionValues: {
+          'codigoprenda': codigo,
+          'estiloprenda': caracteristica,
+        },
+      );
+      }
+      print("producto insertado");
+    } catch (e) {
+      throw Exception('Error al insertar datos en la tabla clientes');
+    }
+  }
+
   Future<List<Map<String, dynamic>>> selectData(String table) async {
     final results = await _connection.query('SELECT * FROM $table');
     List<Map<String, dynamic>> resultMap = await convertResultToMap(results);

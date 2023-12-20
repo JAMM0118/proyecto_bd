@@ -10,6 +10,15 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
+  
+  late TextEditingController controllerUser;
+  late TextEditingController controllerPassword;
+  bool isUser = false;
+  String textUser = '';
+  String textPassword = '';
+  bool passwordNotVisible = true;
+  bool conexionIsOpen2 = false;
+  
   final dbHelper = DatabaseHelper(
     host: 'monorail.proxy.rlwy.net',
     port: 31218,
@@ -35,15 +44,7 @@ class LoginScreenState extends State<LoginScreen> {
       });
     }
   }
-
-  late TextEditingController controllerUser;
-  late TextEditingController controllerPassword;
-  bool isUser = false;
-  String textUser = '';
-  String textPassword = '';
-  bool passwordNotVisible = true;
-  bool conexionIsOpen2 = false;
-  @override
+@override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {

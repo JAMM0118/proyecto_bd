@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:proyecto_bd/dataBase/database_helper.dart';
@@ -185,11 +184,17 @@ List<TextEditingController> controllers = [];
                                       List<String> valoresReales = valores.where((element) => element.isNotEmpty).toList();
                                       print(valoresReales);
                                       print(result.first.keys);
-                                       table =='cliente' ?   dbHelper.insertDataClientes(valoresReales[0], valoresReales[1], valoresReales[2])
-                                      : table == 'pedido' ? dbHelper.insertDataPedido(valoresReales[0], valoresReales[1], valoresReales[2], valoresReales[3], valoresReales[4],valoresReales[5],
+                                      print(table);
+                                       table =='cliente' ?   dbHelper.insertDataClientes(valoresReales[0], valoresReales[1], 
+                                       valoresReales[2])
+                                      : table == 'pedido' ? dbHelper.insertDataPedido(valoresReales[0], valoresReales[1], 
+                                      valoresReales[2], valoresReales[3], valoresReales[4],valoresReales[5],
                                       valoresReales[6],valoresReales[7],valoresReales[8])
-                                      // :  table == 'invetarioproducto' ?
-                                      : dbHelper.insertDataMateriaPrima(valoresReales[0], valoresReales[1], valoresReales[2], valoresReales[3], valoresReales[4],valoresReales[5],
+                                      :  table == 'inventarioproducto' ? dbHelper.insertDataProducto(valoresReales[0], valoresReales[1], valoresReales[2], 
+                                      valoresReales[3], valoresReales[4],valoresReales[5],
+                                      valoresReales[6],valoresReales[7],valoresReales[8],valoresReales[9])
+                                      : dbHelper.insertDataMateriaPrima(valoresReales[0], valoresReales[1], valoresReales[2], 
+                                      valoresReales[3], valoresReales[4],valoresReales[5],
                                       valoresReales[6],valoresReales[7],valoresReales[8],valoresReales[9]);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
