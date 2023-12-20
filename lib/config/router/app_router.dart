@@ -5,7 +5,9 @@ import 'package:proyecto_bd/presentation/screens/encargos_clientes.dart';
 import 'package:proyecto_bd/presentation/screens/inicio_screen.dart';
 import 'package:proyecto_bd/presentation/screens/insert_formulario.dart';
 import 'package:proyecto_bd/presentation/screens/login_screen.dart';
+import 'package:proyecto_bd/presentation/screens/pedidos_registrados.dart';
 import 'package:proyecto_bd/presentation/screens/productos_encargados.dart';
+import 'package:proyecto_bd/presentation/screens/proveedores.dart';
 import 'package:proyecto_bd/presentation/screens/stock_productos.dart';
 import 'package:proyecto_bd/presentation/screens/ventas_colegios.dart';
 import 'package:proyecto_bd/presentation/screens/ventas_productos.dart';
@@ -25,6 +27,8 @@ final appRouter = GoRouter(
     GoRoute(path: '/ventasClientes', builder: (context, state) => const VentasProductos()),
     GoRoute(path: '/insertar', builder: (context, state) => const FormularioInsertar()),
     GoRoute(path: '/clientesRegistrados', builder: (context, state) => const ClientesRegistrados()),
+    GoRoute(path: '/pedidosRegistrados', builder: (context, state) => const PedidosRegistrados()),
+    GoRoute(path: '/proveedores',builder: (context, state) => const Proveedores(),)
     
 
 

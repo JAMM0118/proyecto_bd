@@ -53,6 +53,18 @@ const appMenuItems = <MenuItem>[
     link: "/clientesRegistrados", 
     icon: Icons.person_rounded
     ),
+    MenuItem(
+    title: "Proveedores", 
+    subTitle: "Proveedroes de la empresa", 
+    link: "/proveedores", 
+    icon: Icons.business_outlined
+    ),
+    MenuItem(
+    title: "Pedidos", 
+    subTitle: "Todos los pedidos", 
+    link: "/pedidosRegistrados", 
+    icon: Icons.shopping_bag_rounded
+    ),
 
     MenuItem(
     title: "Compras de los colegios", 
