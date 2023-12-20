@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:proyecto_bd/dataBase/database_helper.dart';
 
 class ColegiosContrato extends StatefulWidget {
@@ -21,7 +22,6 @@ class _ColegiosContratoState extends State<ColegiosContrato> {
     if (await dbHelper.openConnection()) {
       setState(() {
         conexionIsOpen2 = true;
-        print('conexion abierta');
       });
     } else {
       setState(() {
@@ -62,11 +62,19 @@ class _ColegiosContratoState extends State<ColegiosContrato> {
                       .map((e) => e['institucion'])
                       .toSet()
                       .toList();
-    //print(nombreIntitucion);
-    //print(result);
+    final colors = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Colegios con contrato'),
+        title: const Text('Colegios con contrato', style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          color: Colors.white,
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.go('/inicioScreen');
+          },
+        ),
+        
+          backgroundColor:colors.primary,
       ),
       body: Center( child:(!conexionIsOpen2)
             ? const CircularProgressIndicator(
@@ -77,7 +85,7 @@ class _ColegiosContratoState extends State<ColegiosContrato> {
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(nombreIntitucion[index]),
-            leading: const Icon(Icons.school_rounded),
+            leading:  Icon(Icons.school_rounded, color: colors.primary,),
           );
         },
       )),

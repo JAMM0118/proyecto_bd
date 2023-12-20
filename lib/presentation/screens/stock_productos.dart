@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:proyecto_bd/dataBase/database_helper.dart';
 
 class StockProductos extends StatefulWidget {
@@ -21,7 +22,6 @@ class _StockProductosState extends State<StockProductos> {
     if (await dbHelper.openConnection()) {
       setState(() {
         conexionIsOpen2 = true;
-        print('conexion abierta');
       });
     } else {
       setState(() {
@@ -61,7 +61,15 @@ class _StockProductosState extends State<StockProductos> {
     final colors = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Stock'),
+        title: const Text('Stock',style: TextStyle(color: Colors.white),),
+        leading: IconButton(
+          color: Colors.white,
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.go('/inicioScreen');
+          },
+        ),
+        backgroundColor: colors.primary,
       ),
       body:Center(
         child: (!conexionIsOpen2)

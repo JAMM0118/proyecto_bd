@@ -9,14 +9,19 @@ class InicioScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
       key: scaffoldKey,
+    
       appBar: AppBar(
-        title: const Text('Inicio'),
+        iconTheme: const IconThemeData(color: Colors.white),
+        title: const Text('Inicio', style: TextStyle(color: Colors.white)),
+        backgroundColor: colors.primary,
       ),
       body: const _HomeView(),
       drawer: SideMenu(scaffoldKey: scaffoldKey),
+      
       
     );
   }

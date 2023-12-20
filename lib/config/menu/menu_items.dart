@@ -29,7 +29,7 @@ const appMenuItems = <MenuItem>[
     title: "Encargos de clientes", 
     subTitle: "pendientes por entregar", 
     link: '/clientes', 
-    icon: Icons.person
+    icon: Icons.pending_actions_rounded
     ),
   
   
@@ -46,6 +46,12 @@ const appMenuItems = <MenuItem>[
     subTitle: "Colegios en contrato", 
     link: "/colegios", 
     icon: Icons.school
+    ),
+    MenuItem(
+    title: "Clientes", 
+    subTitle: "Clientes registrados", 
+    link: "/clientesRegistrados", 
+    icon: Icons.person_rounded
     ),
 
     MenuItem(
@@ -98,7 +104,7 @@ const appMenuItems = <MenuItem>[
     MenuItem(
     title: "Insertar datos", 
     subTitle: "Insertar datos de la base de datos", 
-    link: "/noa", 
+    link: "/insertar", 
     icon: Icons.playlist_add
     
     ),

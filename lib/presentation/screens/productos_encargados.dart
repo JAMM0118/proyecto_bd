@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:proyecto_bd/dataBase/database_helper.dart';
 
@@ -22,7 +23,6 @@ class _ProductosEncargadosState extends State<ProductosEncargados> {
     if (await dbHelper.openConnection()) {
       setState(() {
         conexionIsOpen2 = true;
-        print('conexion abierta');
       });
     } 
   }
@@ -32,7 +32,7 @@ class _ProductosEncargadosState extends State<ProductosEncargados> {
   Future auxProductos() async {
     if (conexionIsOpen2) {
       final resultMap =
-          await dbHelper.selectDataInventario('inventarioproducto');
+          await dbHelper.selectDataInventario();
       setState(() {
         result = resultMap;
       });
@@ -59,7 +59,15 @@ class _ProductosEncargadosState extends State<ProductosEncargados> {
     final colors = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Productos Encargados'),
+        title: const Text('Productos Encargados', style: TextStyle(color: Colors.white),),
+        leading: IconButton(
+          color: Colors.white,
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.go('/inicioScreen');
+          },
+        ),
+        backgroundColor: colors.primary,
       ),
       body: Center(
         child: (!conexionIsOpen2)

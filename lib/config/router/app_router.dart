@@ -1,7 +1,9 @@
 import 'package:go_router/go_router.dart';
+import 'package:proyecto_bd/presentation/screens/clientes_registrados.dart';
 import 'package:proyecto_bd/presentation/screens/colegios_contrato.dart';
 import 'package:proyecto_bd/presentation/screens/encargos_clientes.dart';
 import 'package:proyecto_bd/presentation/screens/inicio_screen.dart';
+import 'package:proyecto_bd/presentation/screens/insert_formulario.dart';
 import 'package:proyecto_bd/presentation/screens/login_screen.dart';
 import 'package:proyecto_bd/presentation/screens/productos_encargados.dart';
 import 'package:proyecto_bd/presentation/screens/stock_productos.dart';
@@ -21,6 +23,8 @@ final appRouter = GoRouter(
     GoRoute(path: '/ventasColegios', builder: (context, state) => const VentasPorColegio()),
     GoRoute(path: '/ventasTotales', builder: (context, state) => const VentasTotales()),
     GoRoute(path: '/ventasClientes', builder: (context, state) => const VentasProductos()),
+    GoRoute(path: '/insertar', builder: (context, state) => const FormularioInsertar()),
+    GoRoute(path: '/clientesRegistrados', builder: (context, state) => const ClientesRegistrados()),
     
 
 

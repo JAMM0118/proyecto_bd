@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:proyecto_bd/dataBase/database_helper.dart';
+
 class VentasProductos extends StatefulWidget {
   const VentasProductos({super.key});
 
@@ -9,7 +11,7 @@ class VentasProductos extends StatefulWidget {
 }
 
 class _VentasProductosState extends State<VentasProductos> {
-    final dbHelper = DatabaseHelper(
+  final dbHelper = DatabaseHelper(
     host: 'monorail.proxy.rlwy.net',
     port: 31218,
     databaseName: 'railway',
@@ -22,7 +24,6 @@ class _VentasProductosState extends State<VentasProductos> {
     if (await dbHelper.openConnection()) {
       setState(() {
         conexionIsOpen2 = true;
-        print('conexion abierta');
       });
     } else {
       setState(() {
@@ -54,36 +55,39 @@ class _VentasProductosState extends State<VentasProductos> {
 
   @override
   Widget build(BuildContext context) {
-    print(result);
-    final cedulasUnicas =
-         result.map((e) => e['cedula']).toSet().toList();
+    final cedulasUnicas = result.map((e) => e['cedula']).toSet().toList();
 
-     final clienteUnicos = cedulasUnicas
+    final clienteUnicos = cedulasUnicas
         .map((e) => {
-              'cliente': result.firstWhere(
-                  (r) => r['cedula'] == e)['cliente'],
+              'cliente': result.firstWhere((r) => r['cedula'] == e)['cliente'],
               'cedula': e
             })
         .toList();
-      
 
     final ventasporcliente = clienteUnicos
-        .map((c) =>
-            result.where((e) => e['cedula'] == c['cedula']).toList())
+        .map((c) => result.where((e) => e['cedula'] == c['cedula']).toList())
         .toList();
-
+    final colors = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ventas por productos'),
+        title: const Text('Ventas por productos', style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          color: Colors.white,
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.go('/inicioScreen');
+          },
+        ),
+        backgroundColor: colors.primary,
       ),
-      body:  Center(
-        child:(!consultaReady)
+      body: Center(
+        child: (!consultaReady)
             ? const CircularProgressIndicator(
                 strokeWidth: 2,
-              ): ListView.builder(
+              )
+            : ListView.builder(
                 itemCount: clienteUnicos.length,
                 itemBuilder: (context, index) {
-                  
                   return ExpansionTile(
                     //controlAffinity: ListTileControlAffinity.leading ,
                     leading: const Icon(Icons.person_pin_rounded),
@@ -98,7 +102,7 @@ class _VentasProductosState extends State<VentasProductos> {
                                   fontWeight: FontWeight.normal))
                         ])),
 
-                      subtitle: Text.rich(TextSpan(
+                    subtitle: Text.rich(TextSpan(
                         text: "Documento: ",
                         style: const TextStyle(fontWeight: FontWeight.bold),
                         children: <TextSpan>[
@@ -106,7 +110,7 @@ class _VentasProductosState extends State<VentasProductos> {
                               text: clienteUnicos[index]['cedula'].toString(),
                               style: const TextStyle(
                                   fontWeight: FontWeight.normal))
-                        ])) ,
+                        ])),
 
                     children: [
                       for (int i = 0;
@@ -155,38 +159,39 @@ class _VentasProductosState extends State<VentasProductos> {
                               ])),
                         ),
                         ListTile(
-                          title: ventasporcliente[index][i]['total_venta'] !=
-                                  null
-                              ? Text.rich(TextSpan(
-                                  text: "Total Venta: ",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.green),
-                                  children: <TextSpan>[
-                                      TextSpan(
-                                          text: ventasporcliente[index][i]
-                                                  ['total_venta']
-                                              .toString(),
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.normal))
-                                    ]))
-                              : const Text(''),
-                            subtitle: ventasporcliente[index][i]['fecha_entrega'] !=
-                                  null
-                              ? Text.rich(TextSpan(
-                                  text: "Fecha de compra: ",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  children: <TextSpan>[
-                                      TextSpan(
-                                          text: DateFormat('yyyy-MM-dd').format(ventasporcliente[index][i]
-                                                  ['fecha_entrega'])
-                                              .toString(),
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.normal))
-                                    ]))
-                              : const Text('')
-                        ),
+                            title: ventasporcliente[index][i]['total_venta'] !=
+                                    null
+                                ? Text.rich(TextSpan(
+                                    text: "Total Venta: ",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.green),
+                                    children: <TextSpan>[
+                                        TextSpan(
+                                            text: ventasporcliente[index][i]
+                                                    ['total_venta']
+                                                .toString(),
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.normal))
+                                      ]))
+                                : const Text(''),
+                            subtitle: ventasporcliente[index][i]
+                                        ['fecha_entrega'] !=
+                                    null
+                                ? Text.rich(TextSpan(
+                                    text: "Fecha de compra: ",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                    children: <TextSpan>[
+                                        TextSpan(
+                                            text: DateFormat('yyyy-MM-dd')
+                                                .format(ventasporcliente[index]
+                                                    [i]['fecha_entrega'])
+                                                .toString(),
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.normal))
+                                      ]))
+                                : const Text('')),
                       ]
                     ],
                   );

@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:proyecto_bd/dataBase/database_helper.dart';
 
 class VentasTotales extends StatefulWidget {
@@ -24,7 +25,6 @@ class _VentasTotalesState extends State<VentasTotales> {
     if (await dbHelper.openConnection()) {
       setState(() {
         conexionIsOpen2 = true;
-        print('conexion abierta');
       });
     } else {
       setState(() {
@@ -71,10 +71,19 @@ class _VentasTotalesState extends State<VentasTotales> {
 
   @override
   Widget build(BuildContext context) {
-    //print(result);
+    final colors = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ventas totales'),
+        title: const Text('Ventas totales', style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          color: Colors.white,
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.go('/inicioScreen');
+          },
+        ),
+        
+          backgroundColor:colors.primary,
       ),
       body:  (!prizeReady) ? const Center(child: CircularProgressIndicator(
                 strokeWidth: 2,
@@ -90,19 +99,19 @@ class _VentasTotalesState extends State<VentasTotales> {
                 PieChartData(
                   centerSpaceRadius: 50,
                   borderData: FlBorderData(show: false),
-                  sectionsSpace: 2,
+                  sectionsSpace: 5,
                   sections: [
                     PieChartSectionData(
                       color: Colors.red,
                       borderSide: const BorderSide(color: Colors.black),
-                      radius: 70,
+                      radius: 80,
                       value: (resultUniforme[0]['total_ventas'] / result[0]['total_ventas'] * 100),
                       title: '${num.parse((resultUniforme[0]['total_ventas'] / result[0]['total_ventas'] * 100).toStringAsFixed(2))}%',
                     ),
                     PieChartSectionData(
                       color: Colors.blue,
                       borderSide: const BorderSide(color: Colors.black),
-                      radius: 70,
+                      radius: 80,
                       value: (resultPrenda[0]['total_ventas'] / result[0]['total_ventas'] * 100),
                       title: '${num.parse((resultPrenda[0]['total_ventas'] / result[0]['total_ventas'] * 100).toStringAsFixed(2))}%',
                     ),

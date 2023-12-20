@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:proyecto_bd/dataBase/database_helper.dart';
 
@@ -22,7 +23,6 @@ class _VentasPorColegioState extends State<VentasPorColegio> {
     if (await dbHelper.openConnection()) {
       setState(() {
         conexionIsOpen2 = true;
-        print('conexion abierta');
       });
     } else {
       setState(() {
@@ -72,10 +72,18 @@ class _VentasPorColegioState extends State<VentasPorColegio> {
         .map((c) =>
             result.where((e) => e['institucion'] == c['colegio']).toList())
         .toList();
-    print(ventasPorColegio);
+      final colors = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Compras por colegio'),
+        title: const Text('Compras por colegio', style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          color: Colors.white,
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.go('/inicioScreen');
+          },
+        ),
+          backgroundColor:colors.primary,
       ),
       body: Center(
         child: (!conexionIsOpen2)
