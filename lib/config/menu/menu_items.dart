@@ -89,22 +89,7 @@ const appMenuItems = <MenuItem>[
     
     ),
    
-     MenuItem(
-    title: "Ver registros", 
-    subTitle: "Ver registros de la base de datos", 
-    link: "/snackbdasar", 
-    icon: Icons.view_list
     
-    ),
-  
-    
-    MenuItem(
-    title: "Agregar Usuario", 
-    subTitle: "Agregar usuario a la base de datos", 
-    link: "/usuario", 
-    icon: Icons.person_add_alt_1_rounded
-    
-    ),
     MenuItem(
     title: "Consulta de datos", 
     subTitle: "Consultar datos de la base de datos", 
@@ -116,15 +101,22 @@ const appMenuItems = <MenuItem>[
     MenuItem(
     title: "Insertar datos", 
     subTitle: "Insertar datos de la base de datos", 
-    link: "/insertar", 
+    link: "/insertar/:username/:rol", 
     icon: Icons.playlist_add
+    
+    ),
+    MenuItem(
+    title: "Agregar Usuario", 
+    subTitle: "Agregar usuario a la base de datos", 
+    link: "/usuario/:username/:rol", 
+    icon: Icons.person_add_alt_1_rounded
     
     ),
    
     MenuItem(
     title: "Modificar datos", 
     subTitle: "Modificar datos de la base de datos", 
-    link: "/modificar", 
+    link: "/modificar/:username/:rol", 
     icon: Icons.rebase_edit
     
     ),
@@ -132,11 +124,17 @@ const appMenuItems = <MenuItem>[
     MenuItem(
     title: "Eliminar datos", 
     subTitle: "Eliminar datos de la base de datos", 
-    link: "/eliminar", 
+    link: "/eliminar/:username/:rol", 
     icon: Icons.delete_forever
     
     ),
-
+ MenuItem(
+    title: "Ver registros", 
+    subTitle: "Ver registros de la base de datos", 
+    link: "/registros/:username/:rol", 
+    icon: Icons.view_list
+    
+    ),
     
    
   

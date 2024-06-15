@@ -35,19 +35,78 @@ class DatabaseHelper {
     print("Conexión cerrada");
   }
 
-  // Future<void> insertData(String table, Map<String, dynamic> values) async {
-  //   try {
-  //     await _connection.query(
-  //       'INSERT INTO $table("user", "password") VALUES (@userName, @passwordUser)',
-  //       substitutionValues: values,
-  //     );
-  //   } catch (e) {
-  //     throw Exception('Error al insertar datos en la tabla $table');
-  //   }
-  // }
+  Future<void> deleteDataPedido(String eliminacion) async {
+    try {
+      await _connection.query(
+        'DELETE FROM pedido WHERE "numeropedido" = @eliminacion',
+        substitutionValues: {
+          'eliminacion': eliminacion,
+        },
+      );
+    } catch (e) {
+      throw Exception('Error al eliminar datos en la tabla pedido');
+    }
+  }
+
+  Future<void> deleteDataCliente(String eliminacion) async {
+    try {
+      // Primero, elimina las filas de la tabla 'telefono'
+      await _connection.query(
+        """DELETE FROM telefono 
+           WHERE idtelefono IN (
+             SELECT telefonocliente FROM cliente WHERE documentocliente = @eliminacion
+           )""",
+        substitutionValues: {
+          'eliminacion': eliminacion,
+        },
+      );
+
+      // Luego, elimina las filas de la tabla 'cliente'
+      await _connection.query(
+        """DELETE FROM cliente 
+           WHERE documentocliente = @eliminacion""",
+        substitutionValues: {
+          'eliminacion': eliminacion,
+        },
+      );
+    } catch (e) {
+      throw Exception('Error al eliminar datos en la tabla cliente');
+    }
+  }
+
+
+  Future<void> insertUser(String username, String password, String rol) async {
+    try {
+      await _connection.query(
+        'INSERT INTO users("username", "password","rol") VALUES (@userName, @passwordUser,@rol)',
+        substitutionValues: {
+          'userName': username,
+          'passwordUser': password,
+          'rol': rol,
+        },
+      );
+    } catch (e) {
+      throw Exception('Error al insertar datos en la tabla users');
+    }
+  }
+  Future<void> insertRegistro(String table, String operacion) async {
+    try {
+      await _connection.query(
+        'INSERT INTO registro("tablamodificada", "operacion") VALUES (@tabla, @operacion)',
+        substitutionValues: {
+          'tabla': table,
+          'operacion': operacion,
+        
+        },
+      );
+      print("excelente");
+    } catch (e) {
+      throw Exception('Error al insertar datos en la tabla registros');
+    }
+  }
 
   Future<void> insertDataClientes(
-      String cedula, String nombre, String telefono) async {
+       String nombre, String telefono,String cedula) async {
     final results = await selectData('telefono');
     final length = results.length + 1;
     final id = length.toString();
@@ -66,14 +125,22 @@ class DatabaseHelper {
           'telefonocliente': id,
         },
       );
-      print("Cliente insertado");
     } catch (e) {
       throw Exception('Error al insertar datos en la tabla clientes');
     }
   }
 
-Future<void> insertDataProducto( String codigo, String precio, String geneno,String descripcion, String talla,
-String colores, String stock, String tipo, String caracteristica, String materiaPrima) async {
+  Future<void> insertDataProducto(
+      String codigo,
+      String precio,
+      String geneno,
+      String descripcion,
+      String talla,
+      String colores,
+      String stock,
+      String tipo,
+      String caracteristica,
+      String materiaPrima) async {
     final results = await selectData('caracteristicaadicional');
     final length = results.length + 1;
     final id = length.toString();
@@ -108,26 +175,25 @@ String colores, String stock, String tipo, String caracteristica, String materia
           'materiaprima': materiaPrima,
         },
       );
-      if(tipo == 'uniforme'){
+      if (tipo == 'uniforme') {
         await _connection.query(
-        """INSERT INTO uniforme("codigouniforme","estilouniforme", "institucion") VALUES (
+          """INSERT INTO uniforme("codigouniforme","estilouniforme", "institucion") VALUES (
           @codigouniforme,@estilouniforme,@institucion)""",
-        substitutionValues: {
-          'codigouniforme': codigo,
-          'estilouniforme': caracteristica,
-          'institucion': 'institucion $idUniforme',
-        },
-      );
-      }else{
+          substitutionValues: {
+            'codigouniforme': codigo,
+            'estilouniforme': caracteristica,
+            'institucion': 'institucion $idUniforme',
+          },
+        );
+      } else {
         await _connection.query(
-        """INSERT INTO prendadevestir("codigoprenda", "estiloprenda") VALUES (@codigoprenda,@estiloprenda)""",
-        substitutionValues: {
-          'codigoprenda': codigo,
-          'estiloprenda': caracteristica,
-        },
-      );
+          """INSERT INTO prendadevestir("codigoprenda", "estiloprenda") VALUES (@codigoprenda,@estiloprenda)""",
+          substitutionValues: {
+            'codigoprenda': codigo,
+            'estiloprenda': caracteristica,
+          },
+        );
       }
-      print("producto insertado");
     } catch (e) {
       throw Exception('Error al insertar datos en la tabla clientes');
     }
@@ -140,7 +206,8 @@ String colores, String stock, String tipo, String caracteristica, String materia
   }
 
   Future<List<Map<String, dynamic>>> selectDataProveedores() async {
-    final results = await _connection.query("""SELECT nombreproveedor,unidadmedida,materiaprimasuministrada
+    final results = await _connection
+        .query("""SELECT nombreproveedor,unidadmedida,materiaprimasuministrada
     FROM materiaprima inner join proveedor on materiaprima.nitproveedor = proveedor.nitproveedor
     """);
     List<Map<String, dynamic>> resultMap = await convertResultToMap(results);
@@ -148,13 +215,71 @@ String colores, String stock, String tipo, String caracteristica, String materia
   }
 
   Future<List<Map<String, dynamic>>> selectDataPedidos() async {
-    final results = await _connection.query("""SELECT fechaencargo, fechaentrega,estado,descripcionproducto,tipoproducto
+    final results = await _connection.query(
+        """SELECT fechaencargo, fechaentrega,estado,descripcionproducto,tipoproducto
     FROM pedido inner join inventarioproducto on pedido.productoencargado = inventarioproducto.codigoproducto
     """);
     List<Map<String, dynamic>> resultMap = await convertResultToMap(results);
     return resultMap;
   }
 
+  Future<List<Map<String, dynamic>>> selectDataCaracteristica() async {
+    final results = await _connection
+        .query("""select u.institucion, u.estilouniforme, cr.caracteristica
+from  caracteristicaadicional cr inner join inventarioProducto ip on 
+cr.idCaracteristica=ip.caracteristica inner join uniforme u on u.codigouniforme = ip.codigoproducto 
+
+group by u.institucion, u.estilouniforme, cr.caracteristica 
+;
+    """);
+    List<Map<String, dynamic>> resultMap = await convertResultToMap(results);
+    return resultMap;
+  }
+
+  Future<List<Map<String, dynamic>>> selectDataWhere(
+      String table,
+      String table2,
+      String atributo,
+      String atributo2,
+      String atributo3,
+      String necesario) async {
+    final results = await _connection.query("""SELECT * FROM $table,$table2 
+    
+    where $table.$atributo = $table2.$atributo2 and 
+    $table.$atributo3 = $necesario::character varying""");
+    List<Map<String, dynamic>> resultMap = await convertResultToMap(results);
+    return resultMap;
+  }
+
+  Future<void> updateDataClientes(
+      String nombreCliente, String telefono, String cedula) async {
+    List<Map<String, dynamic>> results = await selectDataWhere(
+        'cliente',
+        'telefono',
+        'telefonocliente',
+        'idtelefono',
+        'documentocliente',
+        cedula);
+    String id = results[0]['idtelefono'];
+    try {
+      await _connection.query(
+        'UPDATE telefono SET numerotelefono = @telefono WHERE idtelefono = @id',
+        substitutionValues: {
+          'telefono': telefono,
+          'id': id,
+        },
+      );
+      await _connection.query(
+        'UPDATE cliente SET nombrecompletocliente = @nombreCliente WHERE documentocliente = @cedula',
+        substitutionValues: {
+          'nombreCliente': nombreCliente,
+          'cedula': cedula,
+        },
+      );
+    } catch (e) {
+      throw Exception('Error al modificar datos en la tabla clientes $e');
+    }
+  }
 
   Future<void> insertDataMateriaPrima(
       String codigo,
@@ -194,7 +319,6 @@ String colores, String stock, String tipo, String caracteristica, String materia
           'nitproveedor': nit,
         },
       );
-      print("Materia prima y proveedor insertado");
     } catch (e) {
       throw Exception(
           'Error al insertar datos en la tabla materia prima y proveedor $e');
@@ -231,10 +355,82 @@ String colores, String stock, String tipo, String caracteristica, String materia
             'cantidad': cantidad,
             'productoencargado': producto,
           });
-      print("pedido insertado");
     } catch (e) {
       throw Exception(
           'Error al insertar datos en la tabla materia prima y proveedor $e');
+    }
+  }
+
+  Future<void> updateDataPedidos(
+      String abono,
+      String fechaEncargo,
+      String fechaEntrega,
+      String medidas,
+      String estado,
+      String cantidad,
+      String numeropedido) async {
+    try {
+      await _connection
+          .query("""UPDATE pedido SET abono = @abono, fechaencargo = @fechaencargo, 
+        fechaentrega = @fechaentrega, anotacionmedidas = @anotacionmedidas, estado = @estado, 
+        cantidad = @cantidad 
+         WHERE numeropedido = @numeropedido""", substitutionValues: {
+        'abono': abono,
+        'fechaencargo': fechaEncargo,
+        'fechaentrega': fechaEntrega,
+        'anotacionmedidas': medidas,
+        'estado': estado,
+        'cantidad': cantidad,
+        'numeropedido': numeropedido,
+      });
+    } catch (e) {
+      throw Exception('Error al modificar datos en la tabla pedidos $e');
+    }
+  }
+
+  Future<void> updateDataMateriaPrima(String tipo, String stock,
+      String descripcion, String medida, String codigo) async {
+    try {
+      await _connection
+          .query("""UPDATE materiaprima SET tipo = @tipo, stockmateriaprima = @stockmateriaprima, 
+        descripcionmateriaprima = @descripcionmateriaprima, unidadmedida = @unidadmedida 
+         WHERE codigomateriaprima = @codigomateriaprima""",
+              substitutionValues: {
+            'tipo': tipo,
+            'stockmateriaprima': stock,
+            'descripcionmateriaprima': descripcion,
+            'unidadmedida': medida,
+            'codigomateriaprima': codigo,
+          });
+    } catch (e) {
+      throw Exception('Error al modificar datos en la tabla materia prima $e');
+    }
+  }
+
+  Future<void> updateDataInventarioProducto(
+      String precio,
+      String genero,
+      String descripcion,
+      String talla,
+      String color,
+      String cantidad,
+      String codigo) async {
+    try {
+      await _connection
+          .query("""UPDATE inventarioproducto SET precioventa = @precioventa, genero = @genero, 
+        descripcionproducto = @descripcionproducto, talla = @talla, especificacioncolor = @especificacioncolor, 
+        stockproducto = @stockproducto 
+         WHERE codigoproducto = @codigoproducto""", substitutionValues: {
+        'precioventa': precio,
+        'genero': genero,
+        'descripcionproducto': descripcion,
+        'talla': talla,
+        'especificacioncolor': color,
+        'stockproducto': cantidad,
+        'codigoproducto': codigo,
+      });
+    } catch (e) {
+      throw Exception('Error al modificar datos en la tabla pedidos $e');
     }
   }
 

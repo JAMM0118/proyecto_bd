@@ -33,6 +33,38 @@ class _SideMenuState extends State<SideMenu> {
       }, 
       children: [
 
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("EXIT", style: TextStyle(color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
+        textAlign: TextAlign.center,),
+        IconButton(
+          
+          onPressed: () => showDialog(
+            context: context, // Add the required 'context' argument
+            builder: (BuildContext context) { // Add the required 'builder' argument
+              return AlertDialog(
+                title: const Text('Cerrar sesion'),
+                content: const Text('¿Estas seguro de cerrar sesion?'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: const Text('No'),
+                  ),
+                  TextButton(
+                    onPressed: () => context.go('/'),
+                    child: const Text('Si'),
+                  ),
+                ],
+              );
+            },
+            
+          ),
+        icon: const Icon(Icons.exit_to_app_rounded),),
+          ],
+        ),
+        
         Padding(
           padding: EdgeInsets.fromLTRB(28,hastNotch ? 10 : 20,16,10), //para darle un padding al texto en todas las direcciones all-version is better
           child: const Text("Main Options")

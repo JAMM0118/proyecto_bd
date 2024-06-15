@@ -4,7 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:proyecto_bd/dataBase/database_helper.dart';
 
 class VentasTotales extends StatefulWidget {
-  const VentasTotales({super.key});
+  
+  const VentasTotales({super.key, });
 
   @override
   State<VentasTotales> createState() => _VentasTotalesState();
@@ -79,7 +80,7 @@ class _VentasTotalesState extends State<VentasTotales> {
           color: Colors.white,
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            context.go('/inicioScreen');
+            context.go('/inicioScreen/:username/:rol');
           },
         ),
         

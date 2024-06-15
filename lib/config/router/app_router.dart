@@ -16,27 +16,51 @@ import 'package:proyecto_bd/presentation/screens/stock_productos.dart';
 import 'package:proyecto_bd/presentation/screens/ventas_colegios.dart';
 import 'package:proyecto_bd/presentation/screens/ventas_productos.dart';
 import 'package:proyecto_bd/presentation/screens/ventas_totales.dart';
+import 'package:proyecto_bd/presentation/screens/ver_registros.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
   routes: [
     GoRoute(path:'/', builder: (context, state) => const LoginScreen()),
-    GoRoute(path:'/inicioScreen', builder: (context, state) => const InicioScreen()),
-    GoRoute(path: '/productosEncargados', builder: (context, state) => const ProductosEncargados()),
+    GoRoute(path:'/inicioScreen/:username/:rol', builder: (context, state) =>  InicioScreen(
+      username: state.pathParameters['username']!, 
+      rol: state.pathParameters['rol']!,
+    )),
+    GoRoute(path: '/productosEncargados', builder: (context, state) => const ProductosEncargados(
+      
+    )),
     GoRoute(path:'/clientes', builder: (context, state) => const EncargosClientes()),
     GoRoute(path: '/stock', builder: (context, state) => const StockProductos()),
     GoRoute(path: '/colegios', builder: (context, state) => const ColegiosContrato()),
     GoRoute(path: '/ventasColegios', builder: (context, state) => const VentasPorColegio()),
     GoRoute(path: '/ventasTotales', builder: (context, state) => const VentasTotales()),
     GoRoute(path: '/ventasClientes', builder: (context, state) => const VentasProductos()),
-    GoRoute(path: '/insertar', builder: (context, state) => const FormularioInsertar()),
+    GoRoute(path: '/insertar/:username/:rol', builder: (context, state) =>  FormularioInsertar(
+      username: state.pathParameters['username']!, 
+      rol: state.pathParameters['rol']!,
+    )),
     GoRoute(path: '/clientesRegistrados', builder: (context, state) => const ClientesRegistrados()),
     GoRoute(path: '/pedidosRegistrados', builder: (context, state) => const PedidosRegistrados()),
     GoRoute(path: '/proveedores',builder: (context, state) => const Proveedores(),),
-    GoRoute(path: '/modificar',builder: (context, state) => const FormularioModificar(),),
-    GoRoute(path: '/eliminar',builder: (context, state) => const FormularioEliminar(),),
-    GoRoute(path: '/consultar',builder: (context, state) => const FormularioConsultar(),),
-    GoRoute(path: '/usuario',builder: (context, state) => const FormularioAgregarUsuario(),),
+    GoRoute(path: '/modificar/:username/:rol',builder: (context, state) =>  FormularioModificar(
+      username: state.pathParameters['username']!, 
+      rol: state.pathParameters['rol']!,
+    ),),
+    GoRoute(path: '/eliminar/:username/:rol',builder: (context, state) =>  FormularioEliminar(
+      username: state.pathParameters['username']!, 
+      rol: state.pathParameters['rol']!,
+    ),),
+    GoRoute(path: '/consultar',builder: (context, state) => const FormularioConsultar(
+      
+    ),),
+    GoRoute(path: '/usuario/:username/:rol',builder: (context, state) =>  FormularioAgregarUsuario(
+      username: state.pathParameters['username']!, 
+      rol: state.pathParameters['rol']!,
+    ),),
+    GoRoute(path: '/registros/:username/:rol',builder: (context, state) =>  FormularioRegistros(
+        username: state.pathParameters['username']!, 
+      rol: state.pathParameters['rol']!,
+    ),),
     
 
 

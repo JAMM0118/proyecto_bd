@@ -3,7 +3,11 @@ import 'package:go_router/go_router.dart';
 import 'package:proyecto_bd/dataBase/database_helper.dart';
 
 class FormularioInsertar extends StatefulWidget {
-  const FormularioInsertar({super.key});
+
+  final String username;
+  final String rol;
+  
+  const FormularioInsertar({super.key, required this.username, required this.rol});
 
   @override
   State<FormularioInsertar> createState() => _FormularioInsertarState();
@@ -77,7 +81,7 @@ List<TextEditingController> controllers = [];
           color: Colors.white,
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            context.go('/inicioScreen');
+            context.go('/inicioScreen/:username/:rol');
           },
         ),
         backgroundColor: colors.primary,
@@ -182,9 +186,6 @@ List<TextEditingController> controllers = [];
                                     .validate()) {
                                       List<String> valores = controllers.map((controller) => controller.text).toList();
                                       List<String> valoresReales = valores.where((element) => element.isNotEmpty).toList();
-                                      print(valoresReales);
-                                      print(result.first.keys);
-                                      print(table);
                                        table =='cliente' ?   dbHelper.insertDataClientes(valoresReales[0], valoresReales[1], 
                                        valoresReales[2])
                                       : table == 'pedido' ? dbHelper.insertDataPedido(valoresReales[0], valoresReales[1], 
@@ -196,6 +197,7 @@ List<TextEditingController> controllers = [];
                                       : dbHelper.insertDataMateriaPrima(valoresReales[0], valoresReales[1], valoresReales[2], 
                                       valoresReales[3], valoresReales[4],valoresReales[5],
                                       valoresReales[6],valoresReales[7],valoresReales[8],valoresReales[9]);
+                                      dbHelper.insertRegistro(table, 'insertar');
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                           content: Text('Enviando datos')));
@@ -204,7 +206,11 @@ List<TextEditingController> controllers = [];
                                       const SnackBar(
                                           content: Text('Datos invalidos')));
                                 }
+                                setState(() {
+                                  controllers.clear();
+                                });
                               },
+
                               child: const Text('Insertar Datos')),
                         )
                       ],

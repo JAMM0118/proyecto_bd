@@ -3,20 +3,26 @@ import 'package:go_router/go_router.dart';
 import 'package:proyecto_bd/config/menu/menu_items.dart';
 import 'package:proyecto_bd/presentation/widgets/side_menu.dart';
 
+String roles = '';
 class InicioScreen extends StatelessWidget {
-  const InicioScreen({super.key});
+  final String? username;
+  final String? rol;
+  const InicioScreen({super.key, this.username, this.rol});
   
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final scaffoldKey = GlobalKey<ScaffoldState>();
+    roles = rol!;
     return Scaffold(
       key: scaffoldKey,
-    
+      
+      
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
-        title: const Text('Inicio', style: TextStyle(color: Colors.white)),
+        title: const Text('Inicio', style:   TextStyle(color: Colors.white)),
+        
         backgroundColor: colors.primary,
       ),
       body: const _HomeView(),
@@ -40,7 +46,7 @@ class _HomeView extends StatelessWidget {
       itemBuilder: (context, index){
         final menuItem = appMenuItems[index]; //se obtiene el item
         
-        return _CustomListTile(menuItem: menuItem);
+        return _CustomListTile(menuItem: menuItem, role: roles);
       },
     ); //builder significa que va hacer en tiempo de construccion
   }
@@ -48,9 +54,9 @@ class _HomeView extends StatelessWidget {
 
 class _CustomListTile extends StatelessWidget {
   const _CustomListTile({
-    required this.menuItem,
+    required this.menuItem, required this.role,
   });
-
+  final String role;
   final MenuItem menuItem;
 
   
@@ -61,9 +67,11 @@ class _CustomListTile extends StatelessWidget {
 
     return ListTile( //se crea el item
       leading:  Icon(menuItem.icon, color: colors.primary),
-      trailing: Icon(Icons.arrow_forward_ios_outlined, color: colors.primary),
-      title: Text(menuItem.title),
-      subtitle: Text(menuItem.subTitle),
+      trailing: Icon(Icons.arrow_forward_ios_outlined, color: colors.primary)
+      ,
+      title:  Text(menuItem.title)
+      ,
+      subtitle:  Text(menuItem.subTitle),
       onTap: () {
 
         context.push(menuItem.link); //forma 5 de navegar entre pantallas con go_router

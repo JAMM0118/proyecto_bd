@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:proyecto_bd/dataBase/database_helper.dart';
+import 'package:proyecto_bd/presentation/screens/consulta_formulario.dart';
 
 class PedidosRegistrados extends StatefulWidget {
-  const PedidosRegistrados({super.key});
+  
+  const PedidosRegistrados({super.key, });
 
   @override
   State<PedidosRegistrados> createState() => _PedidosRegistradosState();
@@ -38,7 +40,6 @@ class _PedidosRegistradosState extends State<PedidosRegistrados> {
       final resultMap = await dbHelper.selectDataPedidos();
       setState(() {
         result = resultMap;
-        print(result);
       });
     }
   }
@@ -69,7 +70,7 @@ class _PedidosRegistradosState extends State<PedidosRegistrados> {
           color: Colors.white,
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            context.go('/inicioScreen');
+            context.go('/inicioScreen/:username/$roles');
           },
         ),
         backgroundColor: colors.primary,

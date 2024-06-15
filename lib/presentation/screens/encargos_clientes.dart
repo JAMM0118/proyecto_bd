@@ -3,7 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:proyecto_bd/dataBase/database_helper.dart';
 
 class EncargosClientes extends StatefulWidget {
-  const EncargosClientes({super.key});
+  final String? rol;
+  const EncargosClientes({super.key, this.rol});
 
   @override
   State<EncargosClientes> createState() => _EncargosClientesState();
@@ -80,7 +81,7 @@ class _EncargosClientesState extends State<EncargosClientes> {
           color: Colors.white,
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            context.go('/inicioScreen');
+            context.go('/inicioScreen/:username/:rol');
           },
         ),
         backgroundColor: colors.primary,
@@ -94,7 +95,6 @@ class _EncargosClientesState extends State<EncargosClientes> {
                 itemCount: clienteUnicos.length,
                 itemBuilder: (context, index) {
                   return ExpansionTile(
-                    //controlAffinity: ListTileControlAffinity.leading ,
                     leading: const Icon(Icons.person_pin_rounded),
                     trailing: const Icon(Icons.arrow_drop_down_circle_outlined),
                     title: Text.rich(TextSpan(

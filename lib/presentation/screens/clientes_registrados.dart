@@ -3,7 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:proyecto_bd/dataBase/database_helper.dart';
 
 class ClientesRegistrados extends StatefulWidget {
-  const ClientesRegistrados({super.key});
+  final String? rol;
+  const ClientesRegistrados({super.key, this.rol});
 
   @override
   State<ClientesRegistrados> createState() => _ClientesRegistradosState();
@@ -65,7 +66,7 @@ class _ClientesRegistradosState extends State<ClientesRegistrados> {
           color: Colors.white,
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            context.go('/inicioScreen');
+            context.go('/inicioScreen/:username/:rol');
           },
         ),
         

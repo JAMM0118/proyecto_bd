@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:proyecto_bd/dataBase/database_helper.dart';
 class Proveedores extends StatefulWidget {
-  const Proveedores({super.key});
+  
+  
+  const Proveedores({super.key,});
 
   @override
   State<Proveedores> createState() => _ProveedoresState();
@@ -37,7 +39,6 @@ class _ProveedoresState extends State<Proveedores> {
       final resultMap = await dbHelper.selectDataProveedores();
       setState(() {
         result = resultMap;
-        print(result);
       });
     }
   }
@@ -65,7 +66,7 @@ class _ProveedoresState extends State<Proveedores> {
           color: Colors.white,
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            context.go('/inicioScreen');
+            context.go('/inicioScreen/:username/:rol');
           },
         ),
         

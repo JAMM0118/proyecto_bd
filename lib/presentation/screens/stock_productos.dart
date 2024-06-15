@@ -3,7 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:proyecto_bd/dataBase/database_helper.dart';
 
 class StockProductos extends StatefulWidget {
-  const StockProductos({super.key});
+  
+  const StockProductos({super.key,});
 
   @override
   State<StockProductos> createState() => _StockProductosState();
@@ -66,7 +67,7 @@ class _StockProductosState extends State<StockProductos> {
           color: Colors.white,
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            context.go('/inicioScreen');
+            context.go('/inicioScreen/:username/:rol');
           },
         ),
         backgroundColor: colors.primary,

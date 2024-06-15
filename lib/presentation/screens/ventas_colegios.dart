@@ -4,7 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:proyecto_bd/dataBase/database_helper.dart';
 
 class VentasPorColegio extends StatefulWidget {
-  const VentasPorColegio({super.key});
+  
+  
+  const VentasPorColegio({super.key, });
 
   @override
   State<VentasPorColegio> createState() => _VentasPorColegioState();
@@ -80,7 +82,7 @@ class _VentasPorColegioState extends State<VentasPorColegio> {
           color: Colors.white,
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            context.go('/inicioScreen');
+            context.go('/inicioScreen/:username/:rol');
           },
         ),
           backgroundColor:colors.primary,

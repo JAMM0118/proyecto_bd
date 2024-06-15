@@ -3,7 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:proyecto_bd/dataBase/database_helper.dart';
 
 class ColegiosContrato extends StatefulWidget {
-  const ColegiosContrato({super.key});
+  final String? rol;
+  const ColegiosContrato({super.key, this.rol});
 
   @override
   State<ColegiosContrato> createState() => _ColegiosContratoState();
@@ -35,9 +36,10 @@ class _ColegiosContratoState extends State<ColegiosContrato> {
 
   Future auxData() async {
     if (conexionIsOpen2) {
-      final resultMap = await dbHelper.selectData("uniforme");
+      final resultMap = await dbHelper.selectDataCaracteristica();
       setState(() {
         result = resultMap;
+
       });
     }
   }
@@ -62,6 +64,20 @@ class _ColegiosContratoState extends State<ColegiosContrato> {
                       .map((e) => e['institucion'])
                       .toSet()
                       .toList();
+    
+   final caracteristica = nombreIntitucion
+        .map((e) => {
+              'distintivo':
+                  result.firstWhere((r) => r['institucion'] == e)["caracteristica"],
+              'colegio': e,
+              'estilo': result.firstWhere((r) => r['institucion'] == e)["estilouniforme"]
+            })
+        .toList();
+  
+    final caracteristicasTotales = caracteristica
+        .map((c) =>
+            result.where((e) => e['institucion'] == c['colegio']).toList())
+        .toList();
     final colors = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
@@ -70,7 +86,7 @@ class _ColegiosContratoState extends State<ColegiosContrato> {
           color: Colors.white,
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            context.go('/inicioScreen');
+            context.go('/inicioScreen/:username/:rol');
           },
         ),
         
@@ -83,9 +99,24 @@ class _ColegiosContratoState extends State<ColegiosContrato> {
             :ListView.builder(
         itemCount: nombreIntitucion.length,
         itemBuilder: (context, index) {
-          return ListTile(
+          return ExpansionTile(
             title: Text(nombreIntitucion[index]),
             leading:  Icon(Icons.school_rounded, color: colors.primary,),
+            children: [
+              const ListTile(
+                            title: Text("Caracteristicas del uniforme"),
+                          ),
+               for (int i = 0;
+                          i < caracteristicasTotales[index].length;
+                          i++) ...[
+                          
+                        ListTile(
+                          title: Text("#${i+1} ${caracteristicasTotales[index][i]['estilouniforme']}"),
+                          subtitle: Text(caracteristicasTotales[index][i]['caracteristica'],
+                        )
+           ) ]
+
+            ],
           );
         },
       )),
