@@ -15,7 +15,8 @@ Esta es una aplicación móvil desarrollada como parte del proyecto de **Base de
 
 ## 🛠️ Tecnologías Utilizadas
 
-- **Frontend móvil**: Desarrollado con **Flutter y Dart**.
+- **Frontend móvil**: Desarrollado con **Flutter**.
 - **Base de datos**: **PostgreSQL**.
-- **Backend**: Base de datos desplegada en **Railway**.
+- **Backend**: **Dart**.
+- **Hosting de base de datos**: **Railway**.
 
