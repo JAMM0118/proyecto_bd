@@ -1,16 +1,20 @@
-# proyecto_bd
+# 📌 Store App - Gestión de Compras de Ropa
 
-A new Flutter project.
+Esta es una aplicación móvil desarrollada como parte del proyecto de **Base de Datos**, cuyo objetivo es gestionar la compra de **ropa en general**, incluyendo **uniformes escolares** y **prendas de uso diario**. La app permite a los administradores llevar un control eficiente sobre las compras, el stock, las facturas y las estadísticas de productos más vendidos.
 
-## Getting Started
+## 🚀 Características Principales
 
-This project is a starting point for a Flutter application.
+- 📦 **Gestión de compras**: Permite registrar y administrar las compras realizadas por los colegios y clientes.
+- 👕 **Administración de productos**: Gestión del inventario de ropa en general, incluyendo uniformes y prendas de uso cotidiano.
+- 📊 **Estadísticas**: Visualización de los productos más comprados.
+- 🧾 **Facturación**: Consulta de facturas para revisar compras realizadas.
+- 📉 **Control de stock**: Gestión de la disponibilidad de productos.
+- 🔄 **Historial de cambios**: Registro de modificaciones realizadas en la base de datos.
+- 🏫 **Gestión de colegios en contrato**: Visualización de los colegios asociados y sus estadísticas de compra.
+- 🔐 **Sistema de login**: Acceso exclusivo para administradores.
 
-A few resources to get you started if this is your first Flutter project:
+## 🛠️ Tecnologías Utilizadas
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Frontend móvil**: Desarrollado con **Flutter y Dart**.
+- **Base de datos**: **PostgreSQL**.
+- **Backend**: Servidor desplegado en **Railway**.
